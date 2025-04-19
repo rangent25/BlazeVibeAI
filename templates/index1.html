@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlazeVibeAI - Your AI Emotional Support Companion</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #f0f8ff; /* Light, slightly bluish default text */
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: linear-gradient(45deg, #4682B4, #8A2BE2, #B22222); /* Steel Blue, Violet, Firebrick */
+            background-size: 300% 300%;
+            animation: gradientAnimation 10s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5); /* Slightly transparent dark overlay */
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            background-color: rgba(30, 30, 30, 0.7); /* Dark transparent nav */
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #FFA07A; /* Light Salmon for logo */
+            animation: pulse 2s infinite alternate;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center; /* Vertically align items in the nav */
+        }
+
+        .nav-links li {
+            margin-left: 20px; /* Default margin, adjust as needed */
+        }
+
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        .nav-links a:hover {
+            color: #FFA07A; /* Light Salmon on hover */
+            transform: scale(1.05);
+        }
+
+        .hero {
+            padding: 150px 20px 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: #F0E68C; /* Khaki for main title */
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1.5s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: #ddd;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 15px; /* Adjust spacing between buttons */
+            justify-content: center;
+            align-items: center; /* Center the buttons */
+            animation: fadeInUp 1.5s ease-out 0.8s forwards;
+            opacity: 0;
+        }
+
+        .button {
+            background-color: #F08080; /* Light Coral for buttons */
+            color: #212121;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 280px; /* Slightly reduce button width */
+            max-width: 90%; /* Ensure it doesn't overflow on very small screens */
+        }
+
+        .button:hover {
+            background-color: #CD5C5C; /* Indian Red on hover */
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: rgba(30, 30, 30, 0.7); /* Slightly transparent dark background */
+        }
+
+        .features h2 {
+            color: #DDA0DD; /* Plum for features heading */
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            animation: slideInLeft 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            background-color: rgba(50, 50, 50, 0.7); /* Slightly lighter transparent dark background */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            animation: slideInRight 1s ease-out;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-item h3 {
+            color: #E6E6FA; /* Lavender for feature titles */
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in-out;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+
+        .feature-item p {
+            color: #ccc;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out 0.3s;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #d3d3d3;
+            padding: 40px 0;
+            border-top: 1px solid #333;
+            background-color: rgba(30, 30, 30, 0.8);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Adjust navigation for wider screens */
+        @media (min-width: 769px) {
+            .nav-links li {
+                margin-left: 10px; /* Further reduce margin for wider screens */
+            }
+
+            .nav-links a {
+                font-size: 0.95em; /* Slightly reduce font size on wider screens if needed */
+            }
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: rgba(30, 30, 30, 0.95);
+                display: none;
+                flex-direction: column;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                overflow-y: auto; /* Enable scrolling for long menus */
+                max-height: calc(100vh - 60px); /* Limit height to screen minus nav height */
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+                margin-left: 0;
+                padding: 8px 0; /* Add some vertical padding */
+            }
+
+            .nav-links a {
+                font-size: 1.1em;
+                display: block; /* Make links take full width of the li */
+                padding: 8px 20px; /* Add horizontal padding for better touch targets */
+            }
+
+            .menu-toggle {
+                display: block;
+                color: #fff;
+                font-size: 26px;
+            }
+
+            .hero {
+                padding-top: 120px;
+                padding-bottom: 80px;
+            }
+
+            .hero h1 {
+                font-size: 2.8em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+                margin-bottom: 30px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 90%;
+                margin-bottom: 20px;
+                font-size: 1.1em;
+                padding: 15px 30px;
+            }
+
+            .features {
+                padding: 60px 15px;
+            }
+
+            .features h2 {
+                font-size: 2.5em;
+                margin-bottom: 30px;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .feature-item {
+                padding: 25px;
+                margin-bottom: 25px;
+                min-height: auto;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .feature-item p {
+                margin-bottom: 15px;
+            }
+
+            .feature-item h3 {
+                font-size: 1.6em;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Menu Toggle Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <nav>
+            <div class="logo">BlazeVibeAI</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/chat">Chat</a></li>
+                <li><a href="/info">Learn More</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <section class="hero">
+            <h1>Welcome to BlazeVibeAI</h1>
+            <p>Your AI-Powered Companion for Emotional Well-being and Support.</p>
+            <div class="button-container">
+                <a href="/try-now" class="button">Try Now</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Explore Our Features</h2>
+            <ul class="feature-list">
+                <li class="feature-item" onclick="window.location='/emotional-support';">
+                    <h3>Emotional Support</h3>
+                    <p>A safe space to express your feelings without judgment. Receive empathetic responses and coping strategies.</p>
+                </li>
+                <li class="feature-item" onclick="window.location='/personalized-responses';">
+                    <h3>Personalized Responses</h3>
+                    <p>AI-generated responses tailored to your emotional state and needs.</p>
+                </li>
+                <li class="feature-item" onclick="window.location='/mindfulness';">
+                    <h3>Mindfulness Exercises</h3>
+                    <p>Access guided mindfulness exercises to help manage stress and improve focus.</p>
+                </li>
+                <li class="feature-item" onclick="window.location='/resources';">
+                    <h3>Mental Health Resources</h3>
+                    <p>Get relevant information and referrals to professional mental health support.</p>
+                </li>
+                <li class="feature-item" onclick="window.location='/drug-affinity';">
+                    <h3>Drug Affinity Support</h3>
+                    <p>Empathetic support and educational content to address curiosity, experimentation, or dependency risks related to substance use.</p>
+                </li>
+                <li class="feature-item" onclick="window.location='/early-detection';">
+                    <h3>Early Risk Detection</h3>
+                    <p>Advanced analysis to identify potential emotional distress or signs of drug-related concerns.</p>
+                </li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 BlazeVibeAI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
