@@ -88,29 +88,106 @@ question_responses = {
     "how to prepare for a job interview": "Practice answers, research the company, and dress well. Want mock questions?",
     "what are renewable energy sources": "Sources like solar and wind are renewable. Want pros and cons?",
     "how to improve sleep": "Maintain a routine, avoid screens before bed, and relax. Want a bedtime plan?",
-    "default": "Thanks for sharing! I’m here to help. Please provide more details or ask a specific question so I can assist you better."
+    "default": "Thanks for sharing! I’m here to help. Please provide more details or ask a specific question so I can assist you better.",
+    "how are you": "I'm doing great, thanks for asking! How can I assist you today?",
+    "what is beaconmind ai": "BeaconMind AI is a tool designed to support students' mental well-being...",
+    # ... (keep all your existing questions) ...
+
+    # --- New: Exam & Academic Stress ---
+    "i'm scared of failing": "It's normal to feel this way. Focus on preparation—break material into small chunks and practice regularly. Want a study plan?",
+    "can't focus on studies": "Try the Pomodoro technique (25 mins study + 5 mins break), eliminate distractions, and create a quiet workspace. Need focus tips?",
+    "what if i fail my exams": "Exams don't define you. If things don't go well, you can retake or explore alternative paths. Want to discuss options?",
+
+    # --- New: Substance Abuse ---
+    "how to quit vaping": "Reduce gradually, chew gum as a substitute, and seek support from a counselor. You’ve got this! Need a step-by-step plan?",
+    "is weed dangerous": "Yes, it can harm memory, motivation, and mental health, especially for teens. Want science-backed facts?",
+    "i regret trying drugs": "It takes courage to admit this. Talk to a trusted adult or call [local helpline]. You’re not alone.",
+
+    # --- New: Sexual Harassment/Safety ---
+    "someone touched me inappropriately": "This is NOT your fault. Tell a trusted adult immediately or contact [helpline]. You deserve safety and support.",
+    "i'm being sextorted": "Don’t panic. Stop communication, save evidence, and report to [cybercrime unit]. This is illegal—help is available.",
+    "how to report harassment": "Document incidents (screenshots/texts), tell a teacher/parent, and contact school authorities. Want help drafting a report?",
+
+    # --- New: Mental Health Crises ---
+    "i want to self-harm": "You’re important. Please call [crisis hotline] or talk to a trusted adult NOW. Your pain matters, and help is available.",
+    "i think about suicide": "You are not alone. Call [suicide hotline] immediately. Your life is precious, and people care deeply about you.",
+    "how to help a suicidal friend": "Stay with them, listen without judgment, and get help from an adult/counselor immediately. Want conversation tips?",
+
+    # --- New: Relationships ---
+    "my partner is abusive": "No one should hurt you. Reach out to [domestic violence hotline] or a counselor. You deserve respect and safety.",
+    "how to break up safely": "Do it in public/with a friend nearby, be clear but kind, and block if needed. Want a safety plan?",
+    "i feel used in my relationship": "Healthy relationships are equal. If you feel exploited, it’s okay to step back. Want to talk through signs?",
+
+    # --- New: Family Issues ---
+    "my parents hit me": "This is never okay. Tell a teacher, counselor, or call [child abuse hotline]. You have the right to be safe.",
+    "family fights all the time": "Try setting boundaries (e.g., 'I need space when you yell'). If it’s unsafe, talk to a counselor. Need coping strategies?",
+    "parents don’t accept my identity": "You are valid. Seek LGBTQ+ support groups or a school counselor. Want affirming resources?",
+
+    # --- New: Future Anxiety ---
+    "i have no career direction": "Start by exploring free online courses or career quizzes. Many people change paths—it’s okay not to know yet!",
+    "is college worth it": "It depends! Consider alternatives like trade schools or certifications. Want a pros/cons list for your situation?",
+    "how to choose a major": "Think about what excites you, job prospects, and try introductory classes. Need a decision-making framework?",
+
+    # --- New: Digital Safety ---
+    "nudes leaked online": "First, document everything. Report to the platform and [cybercrime unit]. You have legal options—want guidance?",
+    "i’m addicted to social media": "Set app timers, turn off notifications, and replace scrolling with hobbies. Want a digital detox plan?",
+    "someone is cyberbullying me": "Don’t respond. Block, report to the platform, and tell an adult. You don’t deserve this—want help reporting?",
+
+    # --- New: Physical Health ---
+    "how to lose weight safely": "Focus on balanced meals, portion control, and exercise—not extreme diets. Want healthy habit tips?",
+    "i think i have an eating disorder": "Talk to a doctor or counselor ASAP. Recovery is possible with support. Need help finding resources?",
+    "can’t sleep at night": "Avoid screens before bed, try calming tea or reading, and keep a consistent schedule. Want a bedtime routine?",
+
+    # --- New: Financial Worries ---
+    "how to pay for college": "Explore scholarships, grants, and work-study programs. FAFSA can help—want application tips?",
+    "i’m in debt": "Contact a financial counselor (many schools offer free help). Prioritize high-interest debts first. Need a plan template?",
+    "how to budget as a student": "Track income/expenses, limit eating out, and use student discounts. Want a simple spreadsheet?",
+
+    # --- Keep your existing default ---
+    "default": "Thanks for sharing! I’m here to help. Please provide more details or ask a specific question..."
 }
 # Mock AI response function with intent detection
 def get_mock_ai_response(input_text):
     input_lower = input_text.lower().strip()
     
-    # Check for specific intents/questions
-    for question, response in question_responses.items():
-        if question in input_lower:
-            stress_level = "Low"
-            teacher_alert = None
-            
-            if any(keyword in input_lower for keyword in ["stressed", "sad", "overwhelmed", "anxiety", "weed", "drugs"]):
-                stress_level = "High" if "weed" in input_lower or "drugs" in input_lower else "Moderate"
-                teacher_alert = {"message": "Student needs attention due to stress or drug-related concern."} if stress_level != "Low" else None
-            
-            return {
-                "response": response,
-                "stress_level": stress_level,
-                "teacher_alert": teacher_alert
-            }
+    # Check for keywords in the input
+    matched_question = None
+    highest_score = 0
     
-    # Default response if no match
+    for question in question_responses.keys():
+        # Split question into keywords
+        keywords = question.split()
+        score = 0
+        
+        # Count how many keywords from this question appear in the input
+        for keyword in keywords:
+            if keyword in input_lower:
+                score += 1
+        
+        # Normalize score by question length (to avoid favoring short questions)
+        normalized_score = score / len(keywords)
+        
+        # Track the best matching question
+        if normalized_score > highest_score:
+            highest_score = normalized_score
+            matched_question = question
+    
+    # If we found a good match (at least 50% of keywords present)
+    if highest_score >= 0.5 and matched_question:
+        stress_level = "Low"
+        teacher_alert = None
+        
+        if any(keyword in input_lower for keyword in ["stressed", "sad", "overwhelmed", "anxiety", "weed", "drugs", "depress"]):
+            stress_level = "High" if "weed" in input_lower or "drugs" in input_lower else "Moderate"
+            teacher_alert = {"message": "Student needs attention due to stress or drug-related concern."} if stress_level != "Low" else None
+        
+        return {
+            "response": question_responses[matched_question],
+            "stress_level": stress_level,
+            "teacher_alert": teacher_alert
+        }
+    
+    # Default response if no good match
     return {
         "response": question_responses["default"],
         "stress_level": "Low",
