@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmbraceCare - Emotional Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding-top: 3rem;
+      position: relative;
+      overflow-x: hidden;
+      color: #333;
+    }
+
+    /* Floating shapes */
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      animation: float 6s ease-in-out infinite;
+      z-index: 0;
+    }
+    .shape1 { width: 100px; height: 100px; top: 10%; left: 5%; }
+    .shape2 { width: 150px; height: 150px; bottom: 20%; right: 10%; animation-delay: 2s; }
+    .shape3 { width: 80px; height: 80px; top: 50%; left: 50%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .container {
+      background: #ffffffcc;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(161, 196, 253, 0.6);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+    }
+
+    .header i {
+      font-size: 3rem;
+      color: #00c6ff;
+      animation: heartbeat 2s infinite;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #0072ff;
+    }
+
+    p.subheading {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 1.5rem 0;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 0.8rem;
+      transform: translateY(-50%);
+      color: #00c6ff;
+      opacity: 0.7;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+      border: 2px solid #00c6ff;
+      border-radius: 10px;
+      background: #f0f8ff;
+      font-size: 1rem;
+      resize: vertical;
+      color: #333;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(90deg, #43e97b, #38f9d7);
+    }
+
+    .btn-clear {
+      background: #ff6b6b;
+    }
+
+    .btn-clear:hover {
+      background: #ff4e50;
+    }
+
+    #response {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eaf6ff;
+      border-radius: 10px;
+      text-align: left;
+      max-height: 220px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    #response i.close-icon {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.7rem;
+      color: #0072ff;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    /* Improved Motivational Quotes Section */
+    .quotes {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 114, 255, 0.2);
+      position: relative;
+    }
+
+    .quotes::before {
+      content: '“';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: #00c6ff;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    .quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #444;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s;
+    }
+
+    .quote:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.5rem; }
+      textarea, .btn { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating shapes -->
+  <div class="floating-shape shape1"></div>
+  <div class="floating-shape shape2"></div>
+  <div class="floating-shape shape3"></div>
+
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-hand-holding-heart"></i>
+      <h1>BlazeVibeAI</h1>
+      <p class="subheading">Your feelings matter. You matter.</p>
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-feather-alt"></i>
+      <textarea id="inputText" rows="5" placeholder="Write your thoughts, fears, dreams..."></textarea>
+    </div>
+
+    <div class="button-group">
+      <button class="btn" onclick="submitInput()"><i class="fas fa-paper-plane"></i> Send</button>
+      <button class="btn btn-clear" onclick="clearInput()"><i class="fas fa-times-circle"></i> Clear</button>
+    </div>
+
+    <div id="response">
+      <i class="fas fa-times close-icon" onclick="clearResponse()"></i>
+    </div>
+
+    <div class="quotes">
+      <div class="quote">You are stronger than you think.</div>
+      <div class="quote">Every day may not be good, but there’s something good in every day.</div>
+    </div>
+  </div>
+
+  <script>
+    function submitInput() {
+      const inputText = document.getElementById('inputText').value;
+      if (!inputText.trim()) {
+        alert("Please share your thoughts first!");
+        return;
+      }
+      document.getElementById('response').innerHTML = "<p><i class='fas fa-spinner fa-spin'></i> Finding words of care...</p>";
+
+      fetch('/student', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id: 'student1', input_text: inputText })
+      })
+      .then(response => response.json())
+      .then(data => {
+        let output = `<p><strong>Your Support Message:</strong><br>${data.response.replace(/\n/g, '<br>')}</p>`;
+        output += `<p><strong>Emotion Level:</strong> ${data.stress_level}</p>`;
+        if (data.teacher_alert) {
+          output += `<p><strong>Important:</strong> ${data.teacher_alert.message}</p>`;
+        }
+        document.getElementById('response').innerHTML = output;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('response').innerHTML = "<p><i class='fas fa-exclamation-triangle'></i> Sorry, something went wrong. Please try again.</p>";
+      });
+    }
+
+    function clearInput() {
+      document.getElementById('inputText').value = '';
+    }
+
+    function clearResponse() {
+      document.getElementById('response').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
